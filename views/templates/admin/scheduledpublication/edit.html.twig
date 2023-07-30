@@ -1,0 +1,38 @@
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+{% trans_default_domain "Modules.Clscheduledpublication.Admin" %}
+
+{% block content %}
+  {% set formAction = url('admin_scheduled_publication_edit', {'id':  id}) %}
+  {{ form_start(form, {'action': formAction, 'attr': {'class': 'form', 'id': 'scheduled_publication_form'}}) }}
+  <div class="row justify-content-center">
+    {% block period_form %}
+      <div class="col-xl-10">
+        <div class="card">
+          <h3 class="card-header">
+            <i class="material-icons">format_list_bulleted</i>
+            {{ 'Nouvelle publication programmées'|trans() }}
+          </h3>
+          <div class="card-block row">
+            <div class="card-text">
+              <div class="row">
+                <div class="col-xl-6">
+                  {{ form_row(form.object) }}
+                  {{ form_row(form.idObject) }}
+                  {{ form_row(form.dueDate) }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="d-flex justify-content-between">
+              <a href="{{ url('admin_scheduled_publication_list') }}" class="btn btn-secondary">{{ 'Cancel'|trans({}, 'Admin.Actions') }}</a>
+              <button class="btn btn-primary save-period"> {{ 'Save'|trans({}, 'Admin.Actions') }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endblock %}
+    {{ form_widget(form._token) }}
+    {{ form_end(form) }}
+  </div>
+{% endblock %}

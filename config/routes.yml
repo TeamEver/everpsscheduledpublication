@@ -1,0 +1,23 @@
+admin_scheduled_publication_list:
+    path: /scheduled_publication/list
+    methods: [GET, POST]
+    defaults:
+        _controller: 'Ever\ScheduledPublication\Controllers\Admin\ObjectSchedulerPublicationController::listAction'
+
+admin_scheduled_publication_create:
+    path: /scheduled_publication/create
+    methods: [ GET, POST ]
+    defaults:
+        _controller: 'Ever\ScheduledPublication\Controllers\Admin\ObjectSchedulerPublicationController::createAction'
+
+admin_scheduled_publication_edit:
+    path: /scheduled_publication/edit/{id}
+    methods: [ GET, POST ]
+    defaults:
+        _controller: 'Ever\ScheduledPublication\Controllers\Admin\ObjectSchedulerPublicationController::editAction'
+
+admin_scheduled_publication_delete:
+    path: /scheduled_publication/delete/{id}
+    methods: [ GET, POST ]
+    defaults:
+        _controller: 'Ever\ScheduledPublication\Controllers\Admin\ObjectSchedulerPublicationController::deleteAction'

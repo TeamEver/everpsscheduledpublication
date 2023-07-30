@@ -1,0 +1,65 @@
+imports:
+    - { resource: ../common.yml }
+
+services:
+
+    ever.scheduledpublication.grid.definition.factory.scheduled_publication_grid_definition_factory:
+        class: 'Ever\ScheduledPublication\Grid\ScheduledPublicationGridDefinitionFactory'
+        parent: 'prestashop.core.grid.definition.factory.abstract_grid_definition'
+        public: true
+
+    ever.scheduledpublication.grid.query.scheduled_publication_query_builder:
+        class: 'Ever\ScheduledPublication\Grid\ScheduledPublicationQueryBuilder'
+        parent: 'prestashop.core.grid.abstract_query_builder'
+        public: true
+
+    # Configure our Grid Data factory to use the query builder that we registered above
+    ever.scheduledpublication.grid.data.factory.scheduled_publication_data_factory:
+        class: 'PrestaShop\PrestaShop\Core\Grid\Data\Factory\DoctrineGridDataFactory'
+        arguments:
+            - '@ever.scheduledpublication.grid.query.scheduled_publication_query_builder' # service id of our query builder
+            - '@prestashop.core.hook.dispatcher' # every doctrine query builder needs the hook dispatcher
+            - '@prestashop.core.grid.query.doctrine_query_parser' # parser to get the raw SQL query
+            - 'scheduled_publication' # this should match your grid id, in our case it's "products"
+
+    # Configure Grid factory to use services we have implemented
+    ever.scheduledpublication.grid.scheduled_publication_grid_factory:
+        class: 'PrestaShop\PrestaShop\Core\Grid\GridFactory'
+        public: true
+        arguments:
+            - '@ever.scheduledpublication.grid.definition.factory.scheduled_publication_grid_definition_factory' # our definition factory
+            - '@ever.scheduledpublication.grid.data.factory.scheduled_publication_data_factory'              # our data factory
+            - '@prestashop.core.grid.filter.form_factory'                            # core service needed by grid factory
+            - '@prestashop.core.hook.dispatcher'                                     # core service needed by grid factory
+
+
+    #FORM
+    Ever\ScheduledPublication\Form\ScheduledPublicationFormType:
+        class: 'Ever\ScheduledPublication\Form\ScheduledPublicationFormType'
+        public: true
+
+    ever.scheduledpublication.form.data_provider.scheduled_publication_form_data_provider:
+        class: 'Ever\ScheduledPublication\Form\ScheduledPublicationFormDataProvider'
+        arguments:
+            - '@ever.scheduledpublication.repository.sceduled_publication_repository'
+            - '@serializer'
+
+    ever.scheduledpublication.form.data_persister.scheduled_publication_form_data_persister:
+        class: 'Ever\ScheduledPublication\Form\ScheduledPublicationFormDataPersister'
+        arguments:
+            - '@ever.scheduledpublication.repository.sceduled_publication_repository'
+            - '@doctrine.orm.entity_manager'
+
+    ever.scheduledpublication.form.identifiable_object.handler.scheduled_publication_form_handler:
+        class: 'PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandler'
+        factory: 'prestashop.core.form.identifiable_object.handler.form_handler_factory:create'
+        arguments:
+            - '@ever.scheduledpublication.form.data_persister.scheduled_publication_form_data_persister'
+
+    ever.scheduledpublication.form.builder.scheduled_publication_form_builder:
+        class: 'PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder'
+        factory: 'prestashop.core.form.builder.form_builder_factory:create'
+        arguments:
+            - 'Ever\ScheduledPublication\Form\ScheduledPublicationFormType'
+            - '@ever.scheduledpublication.form.data_provider.scheduled_publication_form_data_provider'
+

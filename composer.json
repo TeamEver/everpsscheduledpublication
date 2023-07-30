@@ -1,0 +1,22 @@
+{
+    "name": "ever/everpsscheduledpublication",
+    "description": "Module de gestion de publications d'objet à une date, heure donné",
+    "type": "prestashop-module",
+    "authors": [
+      {
+        "name": "Team Ever",
+        "email": "info@team-ever.com"
+      }
+    ],
+    "autoload": {
+      "psr-4": {
+        "Ever\\ScheduledPublication\\": "src/"
+      },
+      "classmap": ["everpsscheduledpublication.php", "src/"],
+      "exclude-from-classmap": []
+    },
+    "config": {
+      "preferred-install": "dist"
+    },
+    "require": {}
+}

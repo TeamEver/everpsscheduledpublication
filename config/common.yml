@@ -1,0 +1,17 @@
+services:
+    #COMMAND
+
+    Ever\ScheduledPublication\Command\PublicationCommand:
+        class: Ever\ScheduledPublication\Command\PublicationCommand
+        arguments:
+            - '@ever.scheduledpublication.repository.sceduled_publication_repository'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: 'console.command', command: 'ever:scheduledpublication:publication' }
+
+    #REPOSITORY
+    ever.scheduledpublication.repository.sceduled_publication_repository:
+        class: 'Ever\ScheduledPublication\Repository\ScheduledPublicationRepository'
+        factory: [ '@doctrine.orm.default_entity_manager', getRepository ]
+        arguments:
+            - Ever\ScheduledPublication\Entity\ScheduledPublication

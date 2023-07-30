@@ -1,0 +1,10 @@
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+{% trans_default_domain "Modules.Clscheduledpublication.Admin" %}
+
+{% block content %}
+  <h1>Objets en attente de publication</h1>
+  {% include '@PrestaShop/Admin/Common/Grid/grid_panel.html.twig' with {'grid': gridWaiting} %}
+
+  <h1>Objets déjà publiés</h1>
+  {% include '@PrestaShop/Admin/Common/Grid/grid_panel.html.twig' with {'grid': gridDone} %}
+{% endblock %}
